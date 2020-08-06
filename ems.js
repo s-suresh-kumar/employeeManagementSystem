@@ -267,6 +267,20 @@ async function removeEmployee(employeeInfo) {
   console.log(`Employee removed: ${employeeName[0]} ${employeeName[1]}`);
 }
 
+async function removeDepartment(departmentInfo) {
+  const departmentName = [];
+  departmentName.push(departmentInfo.name);
+
+  // DELETE from department WHERE name="Sales" ;
+
+  let query = "DELETE from department WHERE name=?";
+
+  let args = [departmentInfo.departmentName];
+
+  const rows = await db.query(query, args);
+
+  console.log(`Department removed:  ${departmentInfo.departmentName}`);
+}
 async function addDepartment(departmentInfo) {
   const departmentName = departmentInfo.departmentName;
 
@@ -318,6 +332,8 @@ async function mainPrompt() {
         "Add role",
 
         "Remove employee",
+
+        "Remove department",
 
         "Update employee role",
 
@@ -402,6 +418,26 @@ async function getRemoveEmployeeInfo() {
         // populate from db
 
         ...employees,
+      ],
+    },
+  ]);
+}
+
+async function getRemoveDepartmentInfo() {
+  const departments = await getDepartmentNames();
+
+  return inquirer.prompt([
+    {
+      type: "list",
+
+      message: "Which department do you want to remove?",
+
+      name: "departmentName",
+
+      choices: [
+        // populate from db
+
+        ...departments,
       ],
     },
   ]);
@@ -535,7 +571,13 @@ async function main() {
 
         break;
       }
+      case "Remove department": {
+        const department = await getRemoveDepartmentInfo();
 
+        await removeDepartment(department);
+
+        break;
+      }
       case "Update employee role": {
         const employee = await getUpdateEmployeeRoleInfo();
 
