@@ -178,7 +178,7 @@ async function viewAllEmployeesByDepartment() {
   console.log("");
 
   let query =
-    "SELECT first_name, last_name, department.name FROM ((employee INNER JOIN role ON role_id = role.id) INNER JOIN department ON department_id = department.id);";
+    "SELECT CONCAT(first_name, ' ', last_name) AS 'Employee Name', department.name AS department_name FROM ((employee INNER JOIN role ON role_id = role.id) INNER JOIN department ON department_id = department.id);";
 
   const rows = await db.query(query);
 
