@@ -180,8 +180,8 @@ async function viewAllEmployeesByManager() {
   // SELECT first_name, last_name, department.name FROM ((employee INNER JOIN role ON role_id = role.id) INNER JOIN department ON department_id = department.id);
   const managers = await getManagerNames();
   let query = `SELECT 
-  CONCAT(m.first_name, ' ', m.last_name) AS Manager,
-  CONCAT(e.first_name, ' ', e.last_name) AS DirectReport
+  CONCAT(e.first_name, ' ', e.last_name) AS 'Employee Name',
+  CONCAT(m.first_name, ' ', m.last_name) AS Manager
 FROM
   employee e
 INNER JOIN employee m ON 
