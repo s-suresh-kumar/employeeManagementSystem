@@ -140,7 +140,7 @@ async function viewAllRoles() {
 async function viewAllDepartments() {
   // SELECT * from department;
 
-  let query = "SELECT * FROM department";
+  let query = "SELECT id AS dept_id, name as department_name FROM department";
 
   const rows = await db.query(query);
 
