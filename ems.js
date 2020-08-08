@@ -354,8 +354,14 @@ async function removeRole(roleInfo) {
   let args = [roleInfo.title];
 
   const rows = await db.query(query, args);
-
-  console.log(`Role removed:  ${roleInfo.title}`);
+  if (rows !== undefined) {
+    console.log(`Role removed:  ${roleInfo.title}`);
+  } else {
+    console.log(`Role cannot be removed because of foreign key references`);
+    console.log(
+      `Please remove all rows from employee table that reference this role before retry`
+    );
+  }
 }
 
 async function addDepartment(departmentInfo) {

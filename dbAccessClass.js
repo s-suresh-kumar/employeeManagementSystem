@@ -10,17 +10,12 @@ class Database {
       this.connection.query(sql, args, (err, rows) => {
         if (err) {
           console.log(err.sql);
-
-          console.log("");
-          // return;
           return reject(err);
         }
-        //    console.table(rows);
-        //    return rows;
         resolve(rows);
       });
     }).catch((error) => {
-      console.log("Query Excepton caught");
+      console.log("MYSQL Query Excepton caught");
       //console.log('caught', error.message);
     });
   }
