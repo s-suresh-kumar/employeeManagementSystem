@@ -255,7 +255,28 @@ async function updateEmployeeRole(employeeInfo) {
     `Updated employee ${employee[0]} ${employee[1]} with role ${employeeInfo.role}`
   );
 }
+async function updateEmployeeManager(employeeInfo) {
+  // Given the name of the manager, what is the manager id?
 
+  // Given the full name of the employee, what is their first_name and last_name?
+
+  // UPDATE employee SET manager_id=1 WHERE employee.first_name='Mary Kay' AND employee.last_name='Ash';
+
+  const managerId = await getEmployeeId(employeeInfo.manager);
+
+  const employee = getFirstAndLastName(employeeInfo.employeeName);
+
+  let query =
+    "UPDATE employee SET manager_id=? WHERE employee.first_name=? AND employee.last_name=?";
+
+  let args = [managerId, employee[0], employee[1]];
+
+  const rows = await db.query(query, args);
+
+  console.log(
+    `Updated employee ${employee[0]} ${employee[1]} 's manager as ${employeeInfo.manager}`
+  );
+}
 async function addEmployee(employeeInfo) {
   let roleId = await getRoleId(employeeInfo.role);
 
@@ -383,6 +404,8 @@ async function mainPrompt() {
         "Remove role",
 
         "Update employee role",
+
+        "Update employee manager",
 
         "View all departments",
 
@@ -524,6 +547,42 @@ async function getDepartmentInfo() {
   ]);
 }
 
+async function getUpdateEmployeeManagerInfo() {
+  const employees = await getEmployeeNames();
+
+  //const roles = await getRoles();
+
+  return inquirer.prompt([
+    {
+      type: "list",
+
+      message: "Which employee do you want to update?",
+
+      name: "employeeName",
+
+      choices: [
+        // populate from db
+
+        ...employees,
+      ],
+    },
+
+    {
+      type: "list",
+
+      message: "Who is the employee's new manager?",
+
+      name: "manager",
+
+      choices: [
+        // populate from db
+
+        ...employees,
+      ],
+    },
+  ]);
+}
+
 async function getRoleInfo() {
   const departments = await getDepartmentNames();
 
@@ -658,6 +717,14 @@ async function main() {
         const employee = await getUpdateEmployeeRoleInfo();
 
         await updateEmployeeRole(employee);
+
+        break;
+      }
+
+      case "Update employee manager": {
+        const employee = await getUpdateEmployeeManagerInfo();
+
+        await updateEmployeeManager(employee);
 
         break;
       }
