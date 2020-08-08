@@ -161,8 +161,8 @@ async function viewAllEmployees() {
 
 async function viewTotalUtilizedBudget() {
   let query = `SELECT 
-    department.name,
-    department.id,
+    department.name AS department,
+    department.id AS dept_id,
     SUM(salary ) 'Utilized Budget'
 FROM
 ((employee INNER JOIN role ON role_id = role.id) INNER JOIN department ON department_id = department.id) GROUP BY department.name`;
