@@ -390,8 +390,11 @@ async function addRole(roleInfo) {
   let args = [title, salary, departmentId];
 
   const rows = await db.query(query, args);
-
-  console.log(`Added role ${title}`);
+  if (rows !== undefined) {
+    console.log(`Added role ${title}`);
+  } else {
+    console.log(`Role was not added, double check your inputs`);
+  }
 }
 
 /* 
