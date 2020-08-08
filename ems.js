@@ -159,6 +159,17 @@ async function viewAllEmployees() {
   console.table(rows);
 }
 
+async function viewTotalUtilizedBudget() {
+  let query = `SELECT 
+    department.name,
+    department.id,
+    SUM(salary ) 'Utilized Budget'
+FROM
+((employee INNER JOIN role ON role_id = role.id) INNER JOIN department ON department_id = department.id) GROUP BY department.name`;
+  const rows = await db.query(query);
+
+  console.table(rows);
+}
 async function viewAllEmployeesByDepartment() {
   // View all employees by department
 
@@ -408,6 +419,8 @@ async function mainPrompt() {
         "Update employee manager",
 
         "View all departments",
+
+        "View total utilized budget by department",
 
         "View all employees",
 
@@ -738,6 +751,11 @@ async function main() {
       case "View all employees": {
         await viewAllEmployees();
 
+        break;
+      }
+
+      case "View total utilized budget by department": {
+        await viewTotalUtilizedBudget();
         break;
       }
 
