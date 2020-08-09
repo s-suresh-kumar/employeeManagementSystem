@@ -152,8 +152,15 @@ async function viewAllEmployees() {
 
   // SELECT * FROM employee;
 
-  let query = "SELECT * FROM employee";
-
+  // let query = "SELECT * FROM employee";
+  //  let query = `CONCAT(e.first_name, ' ', e.last_name) AS 'Employee Name',
+  //  CONCAT(m.first_name, ' ', m.last_name) AS Manager
+  // FROM
+  //  employee e
+  // INNER JOIN employee m ON
+  //  m.id = e.manager_id`;
+  let query = `SELECT CONCAT(e.first_name, ' ', e.last_name) AS 'Employee Name', title, department.name AS department, salary, CONCAT(m.first_name, ' ', m.last_name) AS Manager FROM (((employee e INNER JOIN role ON role_id = role.id) INNER JOIN department ON department_id = department.id) LEFT JOIN employee m ON 
+  m.id = e.manager_id)`;
   const rows = await db.query(query);
 
   console.table(rows);
@@ -198,7 +205,7 @@ FROM
 INNER JOIN employee m ON 
   m.id = e.manager_id
 ORDER BY 
-  Manager`;
+  Manager DESC`;
   // for (i = 0; i < managers.length; i++) {
   //   console.log("manager-name = ", managers[i]);
   //   let manager_id = await getEmployeeId(managers[i]);
