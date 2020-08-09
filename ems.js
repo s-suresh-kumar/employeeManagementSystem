@@ -138,27 +138,12 @@ async function viewAllRoles() {
 }
 
 async function viewAllDepartments() {
-  // SELECT * from department;
-
   let query = "SELECT id AS dept_id, name as department_name FROM department";
-
   const rows = await db.query(query);
-
   console.table(rows);
 }
 
 async function viewAllEmployees() {
-  console.log("");
-
-  // SELECT * FROM employee;
-
-  // let query = "SELECT * FROM employee";
-  //  let query = `CONCAT(e.first_name, ' ', e.last_name) AS 'Employee Name',
-  //  CONCAT(m.first_name, ' ', m.last_name) AS Manager
-  // FROM
-  //  employee e
-  // INNER JOIN employee m ON
-  //  m.id = e.manager_id`;
   let query = `SELECT CONCAT(e.first_name, ' ', e.last_name) AS 'Employee Name', title, department.name AS department, salary, CONCAT(m.first_name, ' ', m.last_name) AS Manager FROM (((employee e INNER JOIN role ON role_id = role.id) INNER JOIN department ON department_id = department.id) LEFT JOIN employee m ON 
   m.id = e.manager_id)`;
   const rows = await db.query(query);
@@ -180,10 +165,6 @@ FROM
 async function viewAllEmployeesByDepartment() {
   // View all employees by department
 
-  // SELECT first_name, last_name, department.name FROM ((employee INNER JOIN role ON role_id = role.id) INNER JOIN department ON department_id = department.id);
-
-  console.log("");
-
   let query =
     "SELECT CONCAT(first_name, ' ', last_name) AS 'Employee Name', department.name AS department_name FROM ((employee INNER JOIN role ON role_id = role.id) INNER JOIN department ON department_id = department.id);";
 
@@ -195,7 +176,6 @@ async function viewAllEmployeesByDepartment() {
 async function viewAllEmployeesByManager() {
   // View all employees by department
 
-  // SELECT first_name, last_name, department.name FROM ((employee INNER JOIN role ON role_id = role.id) INNER JOIN department ON department_id = department.id);
   const managers = await getManagerNames();
   let query = `SELECT 
   CONCAT(e.first_name, ' ', e.last_name) AS 'Employee Name',
@@ -206,15 +186,7 @@ INNER JOIN employee m ON
   m.id = e.manager_id
 ORDER BY 
   Manager DESC`;
-  // for (i = 0; i < managers.length; i++) {
-  //   console.log("manager-name = ", managers[i]);
-  //   let manager_id = await getEmployeeId(managers[i]);
-  //   let query =
-  //     "SELECT employee.id, employee.first_name, employee.last_name,  employee.manager_id FROM employee WHERE employee.manager_id = ?";
-  //   let args = [];
-  //   args.push(manager_id);
-  //   console.log("query", query);
-  //   console.log("manager-id", manager_id);
+
   const rows = await db.query(query);
   console.table(rows);
 }
