@@ -8,7 +8,7 @@
 
 #### App In Action
 
-![App in action](assets/images/emsCompressedVideo.gif)
+![App in action](assets/images/emsSpeedVersion.gif)
 
 ## Table of Contents
 
