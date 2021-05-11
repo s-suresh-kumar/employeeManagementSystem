@@ -10,8 +10,8 @@ const db = new Database({
   port: 3306,
 
   user: "root",
-
-  password: "Vetrivelk01#",
+  // password: "Vetrivelk01#",
+  password: "",
 
   database: "employeesDB",
 });
@@ -19,7 +19,6 @@ const db = new Database({
 /*
   Start of calls to the database 
 */
-
 async function getManagerNames() {
   let query = "SELECT * FROM employee WHERE manager_id IS NULL";
 
